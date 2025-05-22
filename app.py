@@ -150,8 +150,10 @@ Additional features that don't fall into the above categories.
 """)
 st.write(strip_suffix(feature_categories['other']))
 
+# For league/season-level analysis
+cols_to_use = filtered_features + [col for col in categorical_columns if col not in filtered_features]
 df_processed = feature_engineer.preprocess_features(
-    df_features[filtered_features],
+    df_features[cols_to_use],
     target_column='outcome_numeric',
     categorical_columns=categorical_columns
 )
@@ -209,12 +211,14 @@ feature_cols = [col for col in df_team.columns if col not in non_feature_cols]
 df_features = df_team[feature_cols + ['team', 'match_location']]
 filtered_features = filter_outcome_correlated_features(df_features)
 filtered_features = filter_by_metric_type(filtered_features, metric_type)
+
+# For team-level analysis
+cols_to_use = filtered_features + [col for col in categorical_columns if col not in filtered_features]
 df_processed = feature_engineer.preprocess_features(
-    df_features[filtered_features],
+    df_features[cols_to_use],
     target_column='outcome_numeric',
     categorical_columns=categorical_columns
 )
-
 if 'outcome_numeric' not in df_processed.columns:
     df_processed['outcome_numeric'] = df_team['outcome_numeric'].values
 
