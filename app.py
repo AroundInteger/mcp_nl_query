@@ -141,7 +141,7 @@ df_processed = feature_engineer.preprocess_features(
     categorical_columns=categorical_columns
 )
 
-X_svd = df_processed.drop(columns=['outcome_numeric'])
+X_svd = df_processed.drop(columns=['outcome_numeric'], errors='ignore')
 y_svd = df['outcome_numeric']
 teams_svd = df['team']
 
