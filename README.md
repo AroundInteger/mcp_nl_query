@@ -48,3 +48,30 @@ This app provides interactive analysis and predictive modeling for rugby union m
 ## Support
 For help, contact the project maintainer or open an issue on GitHub.
 
+## How to Update the App (for Contributors)
+
+If you make changes to `app.py` (or any other file), follow these steps to push your updates to GitHub and trigger a redeploy on Streamlit Cloud:
+
+1. Open your terminal and navigate to the project folder:
+   ```sh
+   cd /Users/rowanbrown/Documents/GitHub/mcp_nl_query
+   ```
+2. Check which files have changed:
+   ```sh
+   git status
+   ```
+3. Add your changes:
+   ```sh
+   git add .
+   ```
+4. Commit your changes (replace the message with a short description of what you changed, e.g. "Update app.py to fix SVD bug"):
+   ```sh
+   git commit -m "Update app.py to fix SVD bug"
+   ```
+5. Push to GitHub:
+   ```sh
+   git push
+   ```
+
+**Note:** After pushing, Streamlit Cloud will automatically redeploy the app with your latest changes.
+
