@@ -88,6 +88,20 @@ else:
 df = remove_away_duplicates(df)
 st.caption(f"Note: Only home team records are shown to avoid duplication. Total matches: {len(df)}")
 
+# Metric type selector
+metric_type = st.radio(
+    "Choose metric type for analysis:",
+    ("Absolute metrics only", "Relative metrics only", "Both")
+)
+
+def filter_by_metric_type(features, metric_type):
+    if metric_type == "Absolute metrics only":
+        return [f for f in features if f.endswith('_i')]
+    elif metric_type == "Relative metrics only":
+        return [f for f in features if f.endswith('_r')]
+    else:
+        return features  # Both
+
 # --- SVD Projection (2D) at League/Season Level ---
 st.subheader("SVD Projection (2D) - League/Season Level")
 st.caption("""
@@ -108,6 +122,7 @@ non_feature_cols = ['matchid', 'team', 'outcome', 'season']
 feature_cols = [col for col in df.columns if col not in non_feature_cols]
 df_features = df[feature_cols + ['team', 'match_location']]
 filtered_features = filter_outcome_correlated_features(df_features)
+filtered_features = filter_by_metric_type(filtered_features, metric_type)
 
 # Categorize features
 feature_categories = categorize_features(filtered_features)
@@ -193,6 +208,7 @@ non_feature_cols = ['matchid', 'team', 'outcome', 'season']
 feature_cols = [col for col in df_team.columns if col not in non_feature_cols]
 df_features = df_team[feature_cols + ['team', 'match_location']]
 filtered_features = filter_outcome_correlated_features(df_features)
+filtered_features = filter_by_metric_type(filtered_features, metric_type)
 df_processed = feature_engineer.preprocess_features(
     df_features[filtered_features],
     target_column='outcome_numeric',
