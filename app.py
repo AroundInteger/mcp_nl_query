@@ -199,6 +199,9 @@ df_processed = feature_engineer.preprocess_features(
     categorical_columns=categorical_columns
 )
 
+if 'outcome_numeric' not in df_processed.columns:
+    df_processed['outcome_numeric'] = df_team['outcome_numeric'].values
+
 # Feature importance
 importance_scores = feature_engineer.get_feature_importance(
     df_processed,
